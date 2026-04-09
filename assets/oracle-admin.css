@@ -1,0 +1,41 @@
+/* Oracle Checks — Admin Styles */
+#ouc-admin-wrap { max-width: 1100px; }
+.ouc-admin-tabs { display:flex; gap:4px; margin:16px 0 0; border-bottom:2px solid #dcdcde; }
+.ouc-tab { background:#f0f0f1; border:1px solid #dcdcde; border-bottom:none; padding:8px 16px; cursor:pointer; border-radius:4px 4px 0 0; font-size:13px; }
+.ouc-tab.active { background:#fff; border-bottom-color:#fff; font-weight:600; color:#1d2327; }
+.ouc-tab-panel { background:#fff; border:1px solid #dcdcde; border-top:none; padding:20px; }
+.ouc-form-card { max-width:780px; }
+.ouc-form-card h2 { margin:0 0 16px; font-size:16px; }
+.ouc-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.ouc-form-card label { display:flex; flex-direction:column; gap:4px; font-size:13px; font-weight:600; color:#1d2327; }
+.ouc-form-card input[type=text], .ouc-form-card select, .ouc-form-card textarea {
+    font-family:inherit; font-size:13px; border:1px solid #dcdcde; border-radius:4px; padding:6px 10px; width:100%; box-sizing:border-box; }
+.ouc-form-card textarea { resize:vertical; }
+.ouc-form-actions { display:flex; gap:8px; margin-top:14px; }
+.ouc-admin-toolbar { display:flex; gap:8px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+.ouc-admin-toolbar input, .ouc-admin-toolbar select { font-size:13px; padding:6px 10px; border:1px solid #dcdcde; border-radius:4px; }
+.ouc-admin-toolbar input { flex:1; min-width:200px; }
+.ouc-admin-count { font-size:12px; color:#646970; margin-left:4px; }
+#ouc-admin-list { display:flex; flex-direction:column; gap:6px; }
+.ouc-admin-row {
+    display:grid; grid-template-columns:200px 80px 90px 80px 90px 1fr auto;
+    gap:8px; align-items:center; padding:8px 12px;
+    border:1px solid #dcdcde; border-radius:6px; background:#fafafa; font-size:12px; }
+.ouc-admin-row:hover { background:#f0f6fc; }
+.ouc-admin-row .ouc-name { font-family:monospace; font-weight:700; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ouc-badge-sm { font-size:10px; font-weight:700; padding:2px 6px; border-radius:10px; white-space:nowrap; }
+.bg-err  { background:#fef2f2; color:#ef4444; }
+.bg-warn { background:#fffbeb; color:#d97706; }
+.bg-rec  { background:#f5f3ff; color:#7c3aed; }
+.bg-inf  { background:#eff6ff; color:#2563eb; }
+.bg-up   { background:#eff6ff; color:#1d4ed8; }
+.bg-pt   { background:#f0fdf4; color:#15803d; }
+.ouc-admin-row .ouc-actions { display:flex; gap:4px; }
+.ouc-admin-row .ouc-actions button { font-size:11px; padding:3px 8px; cursor:pointer; }
+#ouc-admin-save-bar {
+    position:fixed; bottom:0; right:0; left:160px;
+    background:#1d2327; color:#fff; padding:12px 24px;
+    display:flex; align-items:center; justify-content:flex-end; gap:16px; z-index:9999; }
+#ouc-save-status { font-size:13px; color:#a7aaad; }
+.ouc-msg-ok  { color:#00a32a; font-weight:600; font-size:13px; }
+.ouc-msg-err { color:#d63638; font-weight:600; font-size:13px; }

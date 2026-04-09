@@ -1,0 +1,2423 @@
+[
+  {
+    "name": "AHF_COMPLIANCE",
+    "desc": "Oracle Autonomous Health Framework (AHF) para bancos de dados RAC. Pode ser executado antes e depois de upgrades.",
+    "action": "Consulte a seção \"Getting Started with Running Compliance Checks\" no Oracle AHF User's Guide.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "AMD_EXISTS",
+    "desc": "OLAP Catalog é descontinuado a partir do 12c. Será marcado como OPTION OFF durante o upgrade.",
+    "action": "Remova executando $ORACLE_HOME/olap/admin/catnoamd.sql",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "APEX_MANUAL_UPGRADE",
+    "desc": "APEX não é atualizado automaticamente a partir do 18c.",
+    "action": "Atualize o APEX manualmente antes ou depois do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "APEX_PATCH",
+    "desc": "O patching do APEX não é realizado pelo upgrade. PDBs podem exigir nível de patch específico.",
+    "action": "Aplique patch no APEX da versão {4} para pelo menos {2}.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "APEX_UPGRADE_MSG",
+    "desc": "Para reduzir downtime, você pode atualizar o APEX manualmente antes do upgrade.",
+    "action": "Considere atualizar o APEX manualmente antes do upgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "APEX_VERSION_5",
+    "desc": "APEX 5.0.1-5.0.3 pode gerar ORA-20001 na validação.",
+    "action": "Aplique patch para pelo menos 5.0.4 antes do upgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "APPLY_PROGRESS_OPT",
+    "desc": "Parâmetro optimize_progress_table descontinuado a partir do 21c.",
+    "action": "Desabilite para cada apply. Consulte comandos específicos para logical standby, XStream ou GoldenGate.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "APPL_PRINCIPAL",
+    "desc": "Application principals não suportados a partir do 19c.",
+    "action": "Remova usando xdb.dbms_xdbz.delete_application_principal",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ARCHIVE_MODE_ON",
+    "desc": "AutoUpgrade precisa de ARCHIVE LOG e FRA para criar restore point.",
+    "action": "Habilite ARCHIVE LOG e configure FRA, ou use restoration=no no config.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "AUDSYS_JOB_EXIST",
+    "desc": "A partir do 23, jobs de limpeza de auditoria não podem existir no schema AUDSYS.",
+    "action": "Remova jobs existentes e recrie com outro usuário com AUDIT_ADMIN.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "AUDTAB_ENC_TS",
+    "desc": "Oracle Encryption Wallet deve estar aberto durante upgrade se houver tabelas de auditoria em tablespaces criptografados.",
+    "action": "Abra o wallet após o banco ser aberto em modo upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "AUDUNIFIED_LOB_TYPE",
+    "desc": "A partir do 21, recomenda-se usar SECUREFILE em vez de BASICFILE para AUD$UNIFIED.",
+    "action": "Execute auditpostupgrade.sql para converter.",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "AWR_EXPIRED_SNAPSHOTS",
+    "desc": "Remover dados AWR expirados reduz tempo de upgrade.",
+    "action": "Remova snapshots expirados e reduza tabelas AWR.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "BAND4_JPEG_EXIST",
+    "desc": "A partir do 23, JPEG não pode ser aplicado em blocos raster de 4 bandas no GeoRaster.",
+    "action": "Descomprima ou recomprima os objetos problemáticos.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "BASIC_LEXER_LANG_PREF",
+    "desc": "A partir do 23, arquivos de idioma completos não são mais distribuídos com Oracle Text.",
+    "action": "Baixe e instale os arquivos de idioma no target home.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "BASIC_LEXER_STEMMER_AUTO_PREF",
+    "desc": "STEMMER=AUTO impede determinar arquivos de idioma antes do upgrade.",
+    "action": "Verifique NLS_LANGUAGE e instale arquivos conforme necessário.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CASE_INSENSITIVE_AUTH",
+    "desc": "Exclusive Mode não suporta autenticação case insensitive.",
+    "action": "Remova SEC_CASE_SENSITIVE_LOGON para usar case sensitive.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CDB_ONLY_SUPPORT",
+    "desc": "Non-CDBs não são suportados para upgrade direto a partir do 21c.",
+    "action": "Converta para PDB antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPATIBLE_GRP",
+    "desc": "GRP não pode ser usado quando compatible precisa ser alterado.",
+    "action": "Use restoration=no no config do AutoUpgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPATIBLE_NOT_SET",
+    "desc": "COMPATIBLE deve estar explicitamente definido.",
+    "action": "Defina valor no pfile/spfile.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPATIBLE_PARAMETER",
+    "desc": "COMPATIBLE mínimo para target release é {2}.",
+    "action": "Altere para pelo menos {2} antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPATIBLE_PFILES",
+    "desc": "AutoUpgrade suporta raise_compatible após upgrade.",
+    "action": "Remova compatible do pfile e adicione raise_compatible=YES",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPATIBLE_STANDBY",
+    "desc": "Valores de COMPATIBLE devem ser iguais no primário e standby.",
+    "action": "Aumente COMPATIBLE no standby para corresponder ao primário.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPONENT_INFO",
+    "desc": "Lista de componentes no registro do banco.",
+    "action": "Apenas revisar.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "COMPONENT_VERSION_IS_NULL",
+    "desc": "Componentes sem versão impedem upgrade.",
+    "action": "Consulte registry$ e corrija versões nulas.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CONC_RES_MGR",
+    "desc": "Estatísticas simultâneas exigem Resource Manager habilitado.",
+    "action": "Desabilite CONCURRENT ou habilite Resource Manager.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CONFIGURED_TARGET_ORACLE_HOME",
+    "desc": "Target ORACLE_HOME deve estar configurado corretamente.",
+    "action": "Execute {4} no target home.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CONSTRAINT_PRECHECK_UNMARKED",
+    "desc": "Restrições de verificação precisam ser marcadas para validação JSON.",
+    "action": "AutoUpgrade executa conspchk_postupgrade.sql pós-upgrade.",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CREATE_WINDOWS_SERVICE",
+    "desc": "AutoUpgrade não cria serviço Windows automaticamente.",
+    "action": "Crie manualmente ou use -load_win_credential.",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CTX_SHADOW_INDEX",
+    "desc": "Não deve haver shadow indexes do Oracle Text antes do upgrade.",
+    "action": "Remova via CTX_DDL.DROP_SHADOW_INDEX()",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "CYCLE_NUMBER",
+    "desc": "Número de PDBs em paralelo pode ser ajustado.",
+    "action": "Nenhuma ação necessária.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DATAPATCH_TIMEOUT_SETTINGS",
+    "desc": "Timeout para leitura do inventário Oracle.",
+    "action": "Aplicado automaticamente no during_upgrade_pfile.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DATA_MINING_OBJECT",
+    "desc": "Tablespaces com Data Mining não serão READ ONLY com -T.",
+    "action": "Nenhuma ação necessária.",
+    "sev": "INFO",
+    "stage": "VALIDATION",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DBLINK_ISVALID",
+    "desc": "PDBs clonados precisam de dblink configurado.",
+    "action": "Forneça database link válido.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DB_BLOCK_SIZE",
+    "desc": "Upgrade para 12.2.0.1 falha com block_size menor que 8K.",
+    "action": "Aplique patch 27629102 antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DEFAULT_RESOURCE_LIMIT",
+    "desc": "Valor padrão do RESOURCE_LIMIT mudou para TRUE.",
+    "action": "Defina explicitamente FALSE no pfile/spfile.",
+    "sev": "WARNING",
+    "stage": "VALIDATION",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DEPEND_USR_TABLES",
+    "desc": "Tabelas dependentes de tipos mantidos pela Oracle podem não ser atualizadas com -T.",
+    "action": "Execute utluptabdata.sql após upgrade.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DEPLOY_JOB_VALIDATIONS",
+    "desc": "Todas validações devem ser bem-sucedidas antes do DEPLOY.",
+    "action": "Corrija as validações especificadas.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DESUPPORT_92_WRAP_FORMAT",
+    "desc": "Formato wrap do PL/SQL 9.2 não é mais suportado.",
+    "action": "Refaça o wrap das unidades PL/SQL antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DESUPPORT_RAC_ON_SE",
+    "desc": "RAC não suportado no Standard Edition 19c+.",
+    "action": "Use Enterprise Edition ou converta para single instance.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DICTIONARY_HEALTH",
+    "desc": "Verifica inconsistências no dicionário.",
+    "action": "Relatório em {3}. Consulte MOS note indicado.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DICTIONARY_PROTECTED_OBJECTS",
+    "desc": "A partir do 23, schemas mantidos pela Oracle são DICTIONARY PROTECTED.",
+    "action": "Remova objetos ou conceda privilégios em nível de objeto.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DICTIONARY_STATS",
+    "desc": "Estatísticas do dicionário são essenciais para o upgrade.",
+    "action": "EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "VALIDATION",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DIR_SYMLINKS",
+    "desc": "Links simbólicos não permitidos em paths de diretórios a partir do 18c.",
+    "action": "Recrie objetos de diretório sem links simbólicos.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DISCARD_PDB_SAVED_STATE",
+    "desc": "PDB saved states não recomendados em CDBs gerenciados por GI.",
+    "action": "ALTER PLUGGABLE DATABASE {1} DISCARD STATE;",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DISK_SPACE_FOR_LOGGING",
+    "desc": "Diretórios de log precisam de espaço suficiente.",
+    "action": "Verifique espaço nos diretórios de log do AutoUpgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DISK_SPACE_FOR_RECOVERY_AREA",
+    "desc": "FRA precisa de espaço suficiente para o upgrade.",
+    "action": "Adicione espaço em {3} para cobrir {9} necessário.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DUPLIC_SYS_SYSTEM_OBJS",
+    "desc": "Objetos duplicados em SYS e SYSTEM podem existir.",
+    "action": "Remova conforme Doc ID 1030426.6.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DV_AUDIT_USED",
+    "desc": "A partir do 23, usar Unified Audit em vez de DV Traditional Audit.",
+    "action": "Crie e ative políticas de Unified Audit.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DV_CUSTOM_REALM_AND_COMMAND_RULE",
+    "desc": "Fixups em objetos protegidos por realm podem falhar com ORA-47401.",
+    "action": "Execute manualmente ou desabilite DV antes.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DV_ENABLED",
+    "desc": "Database Vault não pode estar habilitado durante upgrade.",
+    "action": "Siga MOS Note 2757126.1",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DV_NO_OLS",
+    "desc": "Oracle Label Security deve estar instalado se DV estiver instalado.",
+    "action": "Instale OLS antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DV_ROLE_GRANTS",
+    "desc": "Roles DV_PUBLIC, DV_REALM_OWNER, DV_REALM_RESOURCE descontinuados no 21c.",
+    "action": "Revogue os roles e crie substitutos se necessário.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "DV_SIMULATION",
+    "desc": "Logs de simulação do DV são específicos da versão.",
+    "action": "Remova registros de DVSYS.OLD_SIMULATION_LOG$",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EDS_EXISTS",
+    "desc": "Extended datatype support (EDS) não suportado no 19c+.",
+    "action": "Execute dbms_logstdby.eds_remove_table",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EM_EXPRESS_PRESENT",
+    "desc": "EM Express descontinuado no 23.",
+    "action": "Nenhuma ação necessária. Será removido no upgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EM_PRESENT",
+    "desc": "EM Database Control não existe mais no 12c+.",
+    "action": "Remova o repositório usando emremove.sql",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ENABLE_LOCAL_UNDO",
+    "desc": "Recomendado ativar LOCAL UNDO em CDBs.",
+    "action": "ALTER DATABASE LOCAL UNDO ON",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EXADATA_USE_LARGE_PAGES",
+    "desc": "USE_LARGE_PAGES deve ser ONLY ou AUTO_ONLY no Exadata com SGA > 32GB.",
+    "action": "Defina no pfile/spfile antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EXCLUSIVE_MODE_AUTH",
+    "desc": "Contas com password version 10G podem falhar no login.",
+    "action": "Expire contas ou ajuste SQLNET.ALLOWED_LOGON_VERSION_SERVER",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EXF_RUL_EXISTS",
+    "desc": "Expression Filter e Rules Manager descontinuados no 12c+.",
+    "action": "Execute catnoexf.sql",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "EXISTENCE_OF_DATAPUMP_AQ_TABLES",
+    "desc": "Tabelas AQ do Data Pump devem ser removidas.",
+    "action": "Remova antes do upgrade (MOS 2789059.1)",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FILES_BACKUP_MODE",
+    "desc": "Nenhum arquivo em modo backup antes do upgrade.",
+    "action": "Certifique-se que não há arquivos em backup mode.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FILES_NEED_RECOVERY",
+    "desc": "Não pode haver arquivos precisando recovery.",
+    "action": "Recupere arquivos listados em v$recover_file.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FILE_GROUP_OBJECTS",
+    "desc": "Objetos de grupo de arquivos do Streams devem ser removidos antes do 23.",
+    "action": "Remova com DBMS_FILE_GROUP.DROP_FILE_GROUP",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FIXED_TABLES_DEPENDENCY",
+    "desc": "Objetos dependentes de tabelas fixas do dicionário podem ficar inválidos.",
+    "action": "Remova objetos não mantidos pela Oracle com dependência.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FIX_TYPEIDS_BUG37169626",
+    "desc": "Bug 37169626 requer fixup pós-upgrade para 23.4-23.6.",
+    "action": "AutoUpgrade atualiza type IDs no POSTFIXUPS.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FLASH_RECOVERY_AREA_SETUP",
+    "desc": "AutoUpgrade precisa de FRA para restore point.",
+    "action": "Configure DB_RECOVERY_FILE_DEST e SIZE.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "FS_ASM_FILE_COPY",
+    "desc": "Keystore precisa estar acessível no target home.",
+    "action": "Migre keystore (MOS 2369614.1 ou 2777949.1)",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "GATEWAY_SID_NAME_CONFLICT",
+    "desc": "Gateways não devem ter SID conflitante entre source e target.",
+    "action": "Resolva conflitos de configuração.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "HIDDEN_PARAMS",
+    "desc": "Parâmetros ocultos devem ser removidos antes do upgrade.",
+    "action": "Revise e remova parâmetros HIDDEN/UNDERSCORE.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INCOMPATIBLE_PLSQL_CCFLAGS_1",
+    "desc": "PLSQL_CCFLAGS não padrão podem causar ORA-04023 na conversão non-CDB para PDB.",
+    "action": "Aplique patch 31516342 e execute utlplsflgs.sql",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INFORM_DROP_GRP",
+    "desc": "AutoUpgrade não remove GRP automaticamente.",
+    "action": "Remova manualmente quando não for mais necessário.",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INVALID_ALL_OBJ_INFO",
+    "desc": "Lista de objetos inválidos por usuário.",
+    "action": "Revise as informações antes do upgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INVALID_APP_OBJ_INFO",
+    "desc": "Lista de objetos inválidos por usuários de aplicação.",
+    "action": "Revise as informações antes do upgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INVALID_OBJECTS_EXIST",
+    "desc": "Não deve haver objetos INVÁLIDOS em schemas mantidos pela Oracle antes do upgrade.",
+    "action": "Execute {1} {4} para recompilar. {3}",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INVALID_ORA_OBJ_INFO",
+    "desc": "Lista de objetos inválidos por usuários mantidos pela Oracle.",
+    "action": "Revise as informações antes do upgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INVALID_SYS_TABLEDATA",
+    "desc": "Colunas de tipo objeto em tabelas de usuários Oracle-Supplied devem estar atualizadas.",
+    "action": "ALTER TABLE ... UPGRADE INCLUDING DATA",
+    "sev": "ERROR",
+    "stage": "VALIDATION",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "INVALID_USR_TABLEDATA",
+    "desc": "Tabelas de usuário dependentes de tipos mantidos pela Oracle devem estar atualizadas.",
+    "action": "ALTER TABLE ... UPGRADE INCLUDING DATA",
+    "sev": "ERROR",
+    "stage": "VALIDATION",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ISRAC_SWITCHEDON_TARGETHOME",
+    "desc": "Opção RAC deve estar habilitada no ORACLE_HOME de destino.",
+    "action": "Habilite a opção RAC e relink o ORACLE_HOME.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "JAVAVM_JIT_MEMORY",
+    "desc": "Memória JIT do JAVAVM precisa de espaço mínimo para upgrade.",
+    "action": "Verifique e ajuste o tamanho da memória compartilhada JIT.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "JAVAVM_STATUS",
+    "desc": "Componente JAVAVM deve estar funcionando corretamente antes do upgrade.",
+    "action": "Contate o Oracle Support. ERRO: ORA{1} {2}",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "JOB_TABLE_INTEGRITY",
+    "desc": "Jobs do DBMS_JOB serão recriados usando Oracle Scheduler a partir do 19c.",
+    "action": "Corrija metadados dos jobs listados ou remova se desnecessários. {1}",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "JVM_MITIGATION_PATCH",
+    "desc": "Upgrade pode falhar se Java development estiver desabilitado com OJVM Mitigation patch.",
+    "action": "Habilite Java development: EXECUTE SYS.DBMS_JAVA_DEV.ENABLE; ou aplique OJVM PSU.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "KEYSTORE_CONFLICT",
+    "desc": "AutoUpgrade precisa copiar arquivos do keystore para o diretório de destino.",
+    "action": "Modifique a localização do keystore via WALLET_ROOT, TNS_ADMIN ou sqlnet.ora.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "LCTR_REMOVE",
+    "desc": "Oracle Locator (LCTR) será removido no upgrade para 23, Spatial será instalado.",
+    "action": "Nenhuma ação necessária.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "LCTR_SDO_CHECK",
+    "desc": "Upgrade para 23: se Locator existir sem Spatial, SDO será instalado durante upgrade.",
+    "action": "Remova Locator (deinssdo.sql) ou instale Spatial antes (mdinst.sql).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MANDATORY_UPGRADE_CHANGES",
+    "desc": "Alterações obrigatórias para realizar o upgrade.",
+    "action": "Aplicadas automaticamente nos arquivos pfile do AutoUpgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MAX_CONNECTIONS_DESUPPORT",
+    "desc": "MAX_CONNECTIONS em LOG_ARCHIVE_DEST_n é descontinuado no 19c.",
+    "action": "Remova o atributo MAX_CONNECTIONS antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MAX_DB_FILES_EXCEEDED",
+    "desc": "CDB não pode conter mais datafiles que o valor de db_files.",
+    "action": "Atualize db_files do CDB {1} para pelo menos {2}.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "BOTH",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MAX_EXTENTS",
+    "desc": "Objetos do dicionário podem crescer durante upgrade e atingir limite de extents.",
+    "action": "Aumente max_extents ou recrie com parâmetros maiores.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MAX_STRING_SIZE_ON_DB",
+    "desc": "MAX_STRING_SIZE deve ter o mesmo valor na origem e destino se for EXTENDED.",
+    "action": "Altere MAX_STRING_SIZE no banco de origem se necessário.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MIGRATION_32K_NOT_COMPLETED",
+    "desc": "Migração para 32K não concluída.",
+    "action": "Execute utl32k.sql no modo upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MINING_MODEL_NON_EDITIONED",
+    "desc": "Data mining models não suportam Edition-Based Redefinition.",
+    "action": "Aplique patch 34584064 antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MIN_ARCHIVE_DEST_SIZE",
+    "desc": "Destinos de archive log precisam de espaço para logs gerados durante upgrade.",
+    "action": "Garanta espaço adicional de {2} por destino de archive log.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MIN_RECOVERY_AREA_SIZE",
+    "desc": "FRA precisa de espaço para gerar logs durante upgrade.",
+    "action": "Defina DB_RECOVERY_FILE_DEST_SIZE para pelo menos {7}.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "MV_REFRESH",
+    "desc": "Materialized views devem ser atualizadas antes do upgrade.",
+    "action": "Atualize MVs com dbms_mview.refresh().",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "NETWORK_ACL_PRIV",
+    "desc": "Privilégios de ACL serão migrados para novo formato no 12c.",
+    "action": "Faça backup dos ACLs existentes. Use novas interfaces após upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "NEW_TIME_ZONES_EXIST",
+    "desc": "Arquivo de time zone deve existir no novo Oracle home.",
+    "action": "Copie o arquivo de time zone do source home para o target home.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "NO_KEYSTORE_FILES",
+    "desc": "AutoUpgrade precisa acessar os arquivos do keystore TDE.",
+    "action": "Configure source_tns_admin_dir no arquivo de configuração.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OBJERROR",
+    "desc": "Objerror$ deve conter apenas linhas com objetos com erro.",
+    "action": "AutoUpgrade limpa em modo fixups.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLAP_PAGE_POOL_SIZE",
+    "desc": "Parâmetro OLAP_PAGE_POOL_SIZE deve ser 0 ou removido.",
+    "action": "Defina como 0 ou remova do pfile/spfile.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLD_TIME_ZONES_EXIST",
+    "desc": "Recomendado atualizar para a versão mais recente do time zone.",
+    "action": "Atualize usando o pacote DBMS_DST.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLS_AUDIT_USED",
+    "desc": "A partir do 23, usar Unified Audit em vez de OLS Traditional Audit.",
+    "action": "Substitua configurações de auditoria tradicional por políticas Unified Audit.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLS_DEFAULT_AUDIT_POLICY",
+    "desc": "ORA_OLS_AUDPOL é nome reservado para política de auditoria unificada no 23.",
+    "action": "Remova política definida pelo usuário com este nome e recrie com nome diferente.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLS_DML_TRIGGERS_DEFAULT_SCHEMA",
+    "desc": "Triggers DML do OLS devem ser movidos para LBAC_TRIGGER schema no 23.",
+    "action": "Remova políticas de tabela e reaplique após upgrade.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLS_OID_CONFIGURED",
+    "desc": "Oracle Label Security não pode ser configurado com OID no 23.",
+    "action": "Desregistre OLS do OID antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLS_SYS_MOVE",
+    "desc": "Registros de auditoria SYSTEM.AUD$ serão movidos para SYS.AUD$.",
+    "action": "Execute olspreupgrade.sql no home de origem.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OLS_VERSION",
+    "desc": "Label Security deve estar na mesma versão do banco ou suportada.",
+    "action": "Desinstale Label Security (MOS 2046002.1).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OPEN_CURSORS",
+    "desc": "OPEN_CURSORS deve ser no mínimo {1} para upgrade do APEX.",
+    "action": "Defina OPEN_CURSORS para pelo menos {1}.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OPTIMIZER_FEATURES_ENABLE",
+    "desc": "Valores não documentados podem não ser suportados na release de destino.",
+    "action": "Atualize com valor válido para release {2}.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ORACLE_HOME_KEYSTORE",
+    "desc": "Não armazenar wallet TDE dentro do ORACLE_HOME.",
+    "action": "Mova os arquivos do wallet para local fora do ORACLE_HOME.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ORACLE_RESERVED_USERS",
+    "desc": "Não pode haver usuários ou roles com nomes reservados pela Oracle na release de destino.",
+    "action": "Remova os seguintes usuários ou roles: {1}",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ORDIM_DESUPPORT",
+    "desc": "Oracle Multimedia é descontinuado no 19c.",
+    "action": "Migre dados armazenados em tipos Oracle Multimedia para SecureFiles LOBs.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ORDIM_INFO_DESUPPORT",
+    "desc": "Oracle Multimedia descontinuado. Métodos e procedimentos levantarão exceção.",
+    "action": "Verifique README.txt ou MOS 2555923.1.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ORDIM_REMOVE",
+    "desc": "Oracle Multimedia será removido no upgrade para 23.",
+    "action": "Migre dados para SecureFiles LOBs (MOS 2375644.1).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OS_AUTHENTICATION",
+    "desc": "sqlnet.authentication_services deve ter mesmo comportamento no target home.",
+    "action": "Atualize o parâmetro no target home (MOS 988262.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "OVERLAP_NETWORK_ACL",
+    "desc": "ACLs com ranges de porta sobrepostos não podem ser atualizadas.",
+    "action": "Desatribua ACLs sobrepostas.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PARAMETER_DEPRECATED",
+    "desc": "Parâmetros de inicialização obsoletos.",
+    "action": "Considere remover os parâmetros obsoletos.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PARAMETER_MIN_VAL",
+    "desc": "Parâmetros de inicialização precisam atender valores mínimos.",
+    "action": "Atualize parâmetros numéricos conforme estimativas.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PARAMETER_NEW_NAME_VAL",
+    "desc": "Alguns parâmetros de inicialização foram renomeados.",
+    "action": "Renomeie os parâmetros ao iniciar em modo upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PARAMETER_OBSOLETE",
+    "desc": "Parâmetros obsoletos ou removidos podem impedir o startup.",
+    "action": "Remova os parâmetros obsoletos.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PARAMETER_RENAME",
+    "desc": "Parâmetros de inicialização foram renomeados.",
+    "action": "Renomeie os parâmetros ao iniciar em modo upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PARAM_VALUES_IN_MEM_ONLY",
+    "desc": "Valores de parâmetros apenas em memória serão perdidos no shutdown.",
+    "action": "Salve as configurações no pfile/spfile.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PATCH_29213893_NEEDED",
+    "desc": "Patch 29213893 necessário para evitar erro durante upgrade.",
+    "action": "Aplique patch 29213893 no target home.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PATCH_33557344_INSTALLED",
+    "desc": "Patch 33557344 necessário antes de upgrade para 19.12-19.14.",
+    "action": "Aplique patch 33557344 no target home.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PA_PROFILE",
+    "desc": "Perfis de Privilege Analysis devem ser desabilitados antes do upgrade.",
+    "action": "Desabilite e gere resultados ou remova perfis.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PDB_CREATED_STANDBYS_NONE",
+    "desc": "Em Data Guard, CREATE PLUGGABLE DATABASE deve usar STANDBYS=NONE.",
+    "action": "Copie arquivos manualmente para o standby após upgrade (MOS 1916648.1).",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PENDING_DST_SESSION",
+    "desc": "Não pode haver operações DST pendentes antes do upgrade.",
+    "action": "Conclua operações DST pendentes (MOS 1509653.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PGA_AGGREGATE_LIMIT",
+    "desc": "PGA_AGGREGATE_LIMIT precisa atender tamanho mínimo para startup.",
+    "action": "Defina para pelo menos {3} ou remova.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PLUGIN_DISK_SPACE_FOR_RECOVERY_AREA",
+    "desc": "FRA precisa de espaço para upgrade de PDBs plugados.",
+    "action": "Adicione espaço em {3} para cobrir {9} necessário.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PLUGIN_MIN_RECOVERY_AREA_SIZE",
+    "desc": "FRA do CDB precisa de espaço para upgrade de PDBs plugados.",
+    "action": "Defina DB_RECOVERY_FILE_DEST_SIZE para pelo menos {7}.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "POST_DICTIONARY",
+    "desc": "Estatísticas do dicionário precisam ser regeradas após upgrade.",
+    "action": "EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "POST_DISABLE_BCT_UPG",
+    "desc": "Reativar Block Change Tracking após upgrade se foi desabilitado.",
+    "action": "Habilite BCT e faça backup nível 0.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "POST_FIXED_OBJECTS",
+    "desc": "Estatísticas de objetos fixos precisam ser regeradas após upgrade.",
+    "action": "EXECUTE DBMS_STATS.GATHER_FIXED_OBJECTS_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "POST_JVM_MITIGAT_PATCH",
+    "desc": "Aplicar OJVM PSU após upgrade se não foi aplicado antes.",
+    "action": "Aplique OJVM Bundle Patch ou desabilite Java development.",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "POST_RECOMPILE",
+    "desc": "Objetos inválidos precisam ser recompilados após upgrade.",
+    "action": "{1}",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "POST_RECOMPILE_IN_CDB",
+    "desc": "Recompilação em CDB pode ser feita em múltiplos PDBs em paralelo.",
+    "action": "Use catcon.pl com utlprp.sql ou utlprpom.sql (23+).",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PREVENT_EMPTY_DATAPATCH_DIRECTORY_ERROR",
+    "desc": "Diretórios de one-off patches precisam estar presentes no target home.",
+    "action": "Copie os diretórios de sqlpatch do source para o target.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PRE_DISABLE_BCT_UPG",
+    "desc": "Block Change Tracking pode causar overhead durante upgrade.",
+    "action": "Considere desabilitar: ALTER DATABASE DISABLE BLOCK CHANGE TRACKING;",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PRE_FIXED_OBJECTS",
+    "desc": "Coletar estatísticas de objetos fixos antes do upgrade.",
+    "action": "EXECUTE DBMS_STATS.GATHER_FIXED_OBJECTS_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PRE_RECOMPILE_IN_CDB",
+    "desc": "Recompilação em CDB antes do upgrade.",
+    "action": "Use catcon.pl com utlprp.sql.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PROXY_ONLY_CONNECT_USER",
+    "desc": "PROXY ONLY CONNECT está obsoleto no 23.",
+    "action": "ALTER USER CANCEL PROXY ONLY CONNECT;",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PURGE_RECYCLEBIN",
+    "desc": "Recycle bin deve estar completamente vazio antes do upgrade.",
+    "action": "Esvazie o RECYCLEBIN imediatamente antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "VALIDATION",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PWD_VFN_FUNC",
+    "desc": "VERIFY_FUNCTION e VERIFY_FUNCTION_11G serão removidos no upgrade.",
+    "action": "Altere profiles para usar função diferente.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "PWFILE_LOCAL_ADMIN",
+    "desc": "Oracle Password File deve estar presente no target home.",
+    "action": "Migre/copie o password file para o target home.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "RAISE_COMPATIBLE",
+    "desc": "Para aumentar compatible após upgrade, não pode haver GRP.",
+    "action": "Remova GRPs antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "REFRESH_CLONE_FORCE_LOGGING",
+    "desc": "Refreshable clone PDB pode ter corrupção com NOLOGGING.",
+    "action": "Defina FORCE LOGGING no banco de origem.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "REMOTE_TARGET_CDB_AVAILABILITY",
+    "desc": "Para prechecks contra CDB remoto, o CDB deve estar aberto.",
+    "action": "Abra o CDB remoto e configure dblink.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "REPCAT_SETUP",
+    "desc": "Advanced Replication não suportado após 12.2.",
+    "action": "Remova o recurso Advanced Replication.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "RLP_PARAM",
+    "desc": "REMOTE_LOGIN_PASSWORDFILE=SHARED não é seguro.",
+    "action": "Defina como EXCLUSIVE antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "RMAN_RECOVERY_VERSION",
+    "desc": "Catalog schema deve estar na mesma versão ou superior ao RMAN client.",
+    "action": "Verifique documentação Oracle Backup and Recovery.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "ROLLBACK_SEGMENTS",
+    "desc": "Rollback segments devem ser dimensionados para o upgrade.",
+    "action": "Use public rollback segment grande (mínimo 70M).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_BACKUP_JOBS",
+    "desc": "Jobs RMAN podem impactar performance do upgrade.",
+    "action": "Considere executar upgrade quando jobs RMAN não estiverem rodando.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_CENTRAL_INVENTORY",
+    "desc": "Central Inventory deve estar definido corretamente para Datapatch.",
+    "action": "Certifique-se que o Oracle home {2} está registrado.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_DATAPUMP_RUNNING",
+    "desc": "DataPump jobs podem impactar performance do upgrade.",
+    "action": "Considere executar upgrade quando DataPump não estiver rodando.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_GG_INTEGRATED_ER",
+    "desc": "GoldenGate Integrated Extract/Replicat podem causar falhas no Datapatch.",
+    "action": "Pare os processos Extract e Replicat antes do patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_GG_LOGMINER_TRIGGERS",
+    "desc": "Triggers GoldenGate/LogMiner podem causar falhas.",
+    "action": "Desabilite triggers (MOS 2301658.1).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_GUARDIUM",
+    "desc": "Guardium pode impactar uso de external tables.",
+    "action": "Desligue Guardium durante execução do AutoUpgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_IMPERVA",
+    "desc": "Imperva pode impactar uso de external tables.",
+    "action": "Desligue Imperva durante execução do AutoUpgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_LOCALE",
+    "desc": "Variáveis LC_ALL e LC_CTYPE precisam estar configuradas.",
+    "action": "Verifique configuração das variáveis de ambiente.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_OPTIM_UPGRADE_PARAM",
+    "desc": "Parâmetro _optim_dict_stats_at_db_cr_upg pode impactar performance.",
+    "action": "Remova o parâmetro durante o patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_QI_CHECKS",
+    "desc": "{1}",
+    "action": "{3}",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_SCHEDULE_JOBS",
+    "desc": "Jobs do scheduler podem causar falhas durante patching.",
+    "action": "Execute patching quando jobs não estiverem rodando.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_STATS_GATHERING",
+    "desc": "Coleta de estatísticas do dicionário pode impactar performance.",
+    "action": "Execute patching quando não houver coleta de estatísticas.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SC_SYS_PUBLIC_GRANTS",
+    "desc": "PUBLIC precisa de EXECUTE em objetos do dicionário.",
+    "action": "Conceda EXECUTE para PUBLIC (MOS 247093.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SOURCE_TARGET_HOME_PRIVILEGES",
+    "desc": "Permissões necessárias para acesso aos arquivos.",
+    "action": "Certifique-se que o usuário tem permissões adequadas.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SSL_CONFIG",
+    "desc": "SSLv3, TLS1.0 e TLS1.1 descontinuados no 23.",
+    "action": "Remova protocolos descontinuados ou adicione TLS1.2/1.3 no sqlnet.ora.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "STANDARD_EDITION",
+    "desc": "Criar backup antes do upgrade para rollback.",
+    "action": "Realize backup do banco de dados antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "STREAMS_SETUP",
+    "desc": "Oracle Streams é descontinuado no 19c.",
+    "action": "Remova configuração do Streams manualmente.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SYNC_STANDBY_DB",
+    "desc": "Standby databases devem estar sincronizados antes do upgrade.",
+    "action": "Sincronize os standby databases (MOS 2064281.1).",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "SYS_DEFAULT_TABLESPACE",
+    "desc": "Default tablespace para SYS/SYSTEM não deve ser SYSTEM.",
+    "action": "Será resetado automaticamente para SYSTEM durante upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TABLESPACES",
+    "desc": "Tablespaces sem AUTOEXTEND precisam de espaço suficiente.",
+    "action": "Garanta espaço adequado para upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TABLESPACES_INFO",
+    "desc": "Informação sobre tablespaces AUTOEXTEND.",
+    "action": "Apenas revisar.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TARGET_CDB_AVAILABILITY",
+    "desc": "CDB de destino deve estar aberto para operações de plug.",
+    "action": "Abra o CDB de destino.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TARGET_CDB_COMPATIBILITY",
+    "desc": "Não deve haver violações do tipo ERROR no PDB_PLUG_IN_VIOLATIONS.",
+    "action": "Corrija as violações reportadas.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TARGET_CDB_COMPATIBILITY_WARNINGS",
+    "desc": "Revisar violações do tipo WARNING.",
+    "action": "Revise cada warning e tome ação se necessário.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TARGET_GATEWAY_INSTALLED",
+    "desc": "Database Gateways configurado no source home.",
+    "action": "Instale Database Gateways no target home.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TARGET_HOME_REGISTERED_INVENTORY",
+    "desc": "Target ORACLE_HOME deve estar registrado no inventário Oracle.",
+    "action": "Execute attachHome para registrar.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TBLSPACE_FLASHBACK_OFF",
+    "desc": "Flashback desabilitado em tablespaces impede restore point.",
+    "action": "Habilite flashback nas tablespaces.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_COLENC_NON_AES_FIPS_IN_USE",
+    "desc": "Algoritmos não-AES para column encryption não suportados em FIPS mode no 23.",
+    "action": "Rekey tabelas com AES256: ALTER TABLE table_name REKEY USING 'AES256';",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_COLENC_SEED_GOST_IN_USE",
+    "desc": "Algoritmos SEED e GOST para column encryption não suportados no 23.",
+    "action": "Rekey com AES256.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_IN_USE",
+    "desc": "Sistema precisa acessar TDE Master Encryption Key durante upgrade.",
+    "action": "Configure auto-login keystore ou abra o keystore antes do upgrade.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_PASSWORDS_REQUIRED",
+    "desc": "AutoUpgrade precisa das senhas do TDE keystore.",
+    "action": "Carregue senhas com -load_password ou configure SEPS.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_PKI_MK_IN_USE",
+    "desc": "PKI-based master key não suportado no 23.",
+    "action": "Crie nova chave: ADMINISTER KEY MANAGEMENT SET KEY;",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_TSENC_NON_AES_FIPS_IN_USE",
+    "desc": "Algoritmos não-AES para tablespace encryption não suportados em FIPS mode no 23.",
+    "action": "Rekey tablespace: ALTER TABLESPACE encryption using 'AES256' REKEY;",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_TSENC_SEED_GOST_IN_USE",
+    "desc": "Algoritmos SEED e GOST para tablespace encryption não suportados no 23.",
+    "action": "Rekey tablespaces com AES256.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TDE_WALLET_ROOT_NOT_IN_USE",
+    "desc": "A partir do 23, WALLET_ROOT e TDE_CONFIGURATION são obrigatórios.",
+    "action": "Configure WALLET_ROOT e TDE_CONFIGURATION (MOS 2642694.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TEMPTS_ALLOFFLINE",
+    "desc": "Default temporary tablespace deve ter pelo menos um temp file online.",
+    "action": "Coloque online pelo menos um temp file.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TEMPTS_NOTEMPFILE",
+    "desc": "Default temporary tablespace deve ter pelo menos um temp file.",
+    "action": "Adicione um temp file.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TIMESTAMP_MISMATCH",
+    "desc": "Timestamp de objetos dependentes deve coincidir com objetos pai.",
+    "action": "Recompile objetos com timestamp mismatch (MOS 781959.1).",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TRGOWNER_NO_ADMNDBTRG",
+    "desc": "Proprietário de trigger de banco de dados precisa de privilégio ADMINISTER DATABASE TRIGGER.",
+    "action": "Conceda privilégio diretamente ao proprietário.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TS_FORUPG_STATUS",
+    "desc": "Tablespaces com objetos do dicionário devem permitir escrita durante upgrade.",
+    "action": "Modifique tablespaces com ALTER TABLESPACE para permitir escrita.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "TWO_PC_TXN_EXIST",
+    "desc": "Transações distribuídas pendentes podem causar perda de dados.",
+    "action": "Resolva transações in-doubt (MOS 126069.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNDERSCORE_EVENTS",
+    "desc": "Eventos definidos devem ser removidos antes do upgrade.",
+    "action": "Revise e remova EVENTS desnecessários.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNIAUD_CLI_SWP",
+    "desc": "Registros de Unified Audit no CLI devem ser transferidos para AUD$UNIFIED.",
+    "action": "Transfira registros com DBMS_AUDIT_MGMT.TRANSFER_UNIFIED_AUDIT_RECORDS.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNIAUD_RECORDS_IN_FILE",
+    "desc": "Registros de Unified Audit em arquivos OS devem ser carregados antes do upgrade.",
+    "action": "Carregue com DBMS_AUDIT_MGMT.LOAD_UNIFIED_AUDIT_FILES.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNIAUD_TAB",
+    "desc": "AUDSYS.AUD$UNIFIED é tabela interna Unified Audit.",
+    "action": "Remova a tabela antes do upgrade (faça backup se necessário).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNIFIED_AUDIT_ON",
+    "desc": "A partir do 23, Unified Audit é o padrão. Traditional audit limitado.",
+    "action": "Converta para Unified Audit (MOS 2909718.1).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNPLUG_PLUG_GRP_EXIST",
+    "desc": "Não pode haver GRP no PDB antes do unplug se COMPATIBLE for diferente.",
+    "action": "Remova GRP(s) no PDB antes do unplug.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UNPLUG_PLUG_UPGRADE",
+    "desc": "UnplugPlug Upgrade será realizado.",
+    "action": "Considere usar outra estratégia de backup.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UPDATE_SYS_DIRECTORIES",
+    "desc": "Diretórios que referenciam ORACLE_HOME precisam ser atualizados após patching.",
+    "action": "Execute utlfixdirs.sql após upgrade.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UPG_BY_STD_UPGRD",
+    "desc": "Alguns componentes podem não ser atualizados pelo script padrão.",
+    "action": "Verifique documentação para procedimento específico.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "UTLRP_RUN_SERIAL",
+    "desc": "UTL_RECOMP.RECOMP_PARALLEL() pode spawn jobs em paralelo.",
+    "action": "Revise e ajuste JOB_QUEUE_PROCESSES.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "WALLET_ROOT_KEYSTORE",
+    "desc": "Oracle recomenda gerenciar wallet com WALLET_ROOT e TDE_CONFIGURATION.",
+    "action": "Converta localização do wallet (MOS 2642694.1).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "XBRL_VERSION",
+    "desc": "XBRL Extension to XML DB não é atualizado pelo upgrade padrão.",
+    "action": "Atualize XBRL separadamente (MOS 1547380.2).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "XDB_RESOURCE_TYPE",
+    "desc": "Acesso direto a TYPE XDB.XDB$RESOURCE_T ou TABLE XDB.XDB$RESOURCE é restrito.",
+    "action": "Contate Oracle Support.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "XMLCONCAT_EXISTS",
+    "desc": "Public synonym XMLCONCAT obsoleto não deve existir.",
+    "action": "Remova public synonym XMLCONCAT antes do upgrade.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "UPGRADE"
+  },
+  {
+    "name": "AP_DISK_SPACE_FOR_PATCHING",
+    "desc": "O destino especificado no parâmetro target_home deve ter espaço suficiente para instalar um novo ORACLE_HOME.",
+    "action": "Certifique-se que o caminho em target_home tem espaço livre ou use um caminho diferente.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "AP_OPATCH_PREREQ",
+    "desc": "Verificar pré-requisitos do OPatch antes de usar.",
+    "action": "Corrija os erros vistos nas verificações de pré-requisito do OPatch.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "AP_PATCHES_INFORMATION",
+    "desc": "AutoUpgrade Patching cria novo target ORACLE_HOME e instala os patches especificados abaixo: {2}",
+    "action": "Revise as informações antes do patching.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "AP_RAC_SSH_CHECK",
+    "desc": "Em ambiente Oracle Real Application Clusters (RAC) em plataformas POSIX, o AutoUpgrade requer acesso Secure Shell (SSH) aos nós que serão patchados.",
+    "action": "Habilite conectividade SSH entre os nós especificados no parâmetro home_settings.cluster_nodes.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "ARCHIVE_MODE_ON",
+    "desc": "AutoUpgrade precisa de ARCHIVE LOG e FRA para criar restore point.",
+    "action": "Habilite ARCHIVE LOG e configure FRA, ou use restoration=no no config.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "COMPONENT_INFO",
+    "desc": "Lista de componentes no registro do banco.",
+    "action": "Apenas revisar.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "CREATE_WINDOWS_SERVICE",
+    "desc": "AutoUpgrade não cria serviço Windows automaticamente.",
+    "action": "Crie manualmente ou use -load_win_credential.",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "CTX_SHADOW_INDEX",
+    "desc": "Não deve haver shadow indexes do Oracle Text antes do patching. Detalhes na Nota MOS Doc ID 2611361.1.",
+    "action": "Remova via CTX_DDL.DROP_SHADOW_INDEX(). Consulte MOS Note 2611361.1.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DATAPATCH_TIMEOUT_SETTINGS",
+    "desc": "Parâmetro _xt_preproc_timeout controla o timeout ao ler o inventário Oracle.",
+    "action": "Alterações aplicadas automaticamente no during_upgrade_pfile_dbname.ora.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DEPLOY_JOB_VALIDATIONS",
+    "desc": "Todas validações devem ser bem-sucedidas antes do DEPLOY.",
+    "action": "Corrija as validações especificadas antes de executar o AutoUpgrade no modo DEPLOY.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DICTIONARY_HEALTH",
+    "desc": "Oracle Dictionary Health Check (DBMS_DICTIONARY_CHECK) identifica inconsistências no dicionário.",
+    "action": "Relatório gerado em {3}. Consulte a nota MOS listada.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DICTIONARY_STATS",
+    "desc": "Estatísticas do dicionário são essenciais para o tempo adequado do patching.",
+    "action": "EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DISK_SPACE_FOR_RECOVERY_AREA",
+    "desc": "Destino definido por DB_RECOVERY_FILE_DEST precisa de espaço suficiente para o patching.",
+    "action": "Adicione espaço em {3} para cobrir {9} necessário.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DV_CUSTOM_REALM_AND_COMMAND_RULE",
+    "desc": "Fixups em objetos protegidos por realm podem falhar com ORA-47401.",
+    "action": "Execute manualmente ou desabilite DV antes de invocar o AutoUpgrade.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "DV_ENABLED",
+    "desc": "Database Vault não pode estar habilitado durante patching.",
+    "action": "Siga MOS Note 2757126.1.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "FLASH_RECOVERY_AREA_SETUP",
+    "desc": "AutoUpgrade precisa de FRA para restore point como estratégia de rollback.",
+    "action": "Configure DB_RECOVERY_FILE_DEST e SIZE.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "GATEWAY_SID_NAME_CONFLICT",
+    "desc": "Gateways não devem ter SID conflitante entre source e target.",
+    "action": "Resolva conflitos de configuração.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "INFORM_DROP_GRP",
+    "desc": "AutoUpgrade não remove GRP automaticamente.",
+    "action": "Remova manualmente quando não for mais necessário.",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "INVALID_OBJECTS_EXIST",
+    "desc": "Não deve haver objetos INVÁLIDOS em schemas mantidos pela Oracle.",
+    "action": "Execute {1} {4} para recompilar. {3}",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "INVALID_ORA_OBJ_INFO",
+    "desc": "Lista de objetos inválidos por usuários mantidos pela Oracle.",
+    "action": "Revise as informações antes do patching.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "JVM_MITIGATION_PATCH",
+    "desc": "Patching pode falhar se Java development estiver desabilitado.",
+    "action": "Habilite Java development: EXECUTE SYS.DBMS_JAVA_DEV.ENABLE; ou aplique OJVM PSU.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "MANDATORY_UPGRADE_CHANGES",
+    "desc": "Alterações obrigatórias para realizar o patching.",
+    "action": "Aplicadas automaticamente nos arquivos pfile.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "MAX_EXTENTS",
+    "desc": "Objetos do dicionário podem crescer e atingir limite de extents.",
+    "action": "Aumente max_extents ou recrie com parâmetros maiores.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "MIN_ARCHIVE_DEST_SIZE",
+    "desc": "Destinos de archive log precisam de espaço.",
+    "action": "Garanta espaço adicional de {2} por destino.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "MIN_RECOVERY_AREA_SIZE",
+    "desc": "FRA precisa de espaço para gerar logs.",
+    "action": "Defina DB_RECOVERY_FILE_DEST_SIZE para pelo menos {7}.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "NEW_TIME_ZONES_EXIST",
+    "desc": "Arquivo de time zone deve existir no novo Oracle home.",
+    "action": "Copie o arquivo de time zone do source home para o target home.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "NO_KEYSTORE_FILES",
+    "desc": "AutoUpgrade precisa acessar os arquivos do keystore TDE.",
+    "action": "Configure source_tns_admin_dir no arquivo de configuração.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "OLD_TIME_ZONES_EXIST",
+    "desc": "Recomendado atualizar para a versão mais recente do time zone.",
+    "action": "Atualize usando o pacote DBMS_DST.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "ORACLE_HOME_KEYSTORE",
+    "desc": "Não armazenar wallet TDE dentro do ORACLE_HOME.",
+    "action": "Mova os arquivos do wallet para local fora do ORACLE_HOME.",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "OS_AUTHENTICATION",
+    "desc": "sqlnet.authentication_services deve ter mesmo comportamento no target home.",
+    "action": "Atualize o parâmetro no target home (MOS 988262.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "PENDING_DST_SESSION",
+    "desc": "Não pode haver operações DST pendentes.",
+    "action": "Conclua operações DST pendentes (MOS 1509653.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "POST_DICTIONARY",
+    "desc": "Estatísticas do dicionário precisam ser regeradas após patching.",
+    "action": "EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "POST_JVM_MITIGAT_PATCH",
+    "desc": "Aplicar OJVM PSU após patching se não foi aplicado antes.",
+    "action": "Aplique OJVM Bundle Patch ou desabilite Java development.",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "POST_RECOMPILE",
+    "desc": "Objetos inválidos precisam ser recompilados após patching.",
+    "action": "{1}",
+    "sev": "RECOMMEND",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "POST_RECOMPILE_IN_CDB",
+    "desc": "Recompilação em CDB pode ser feita em múltiplos PDBs em paralelo.",
+    "action": "Use catcon.pl com utlprp.sql ou utlprpom.sql (23+).",
+    "sev": "INFO",
+    "stage": "POST",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "PREVENT_EMPTY_DATAPATCH_DIRECTORY_ERROR",
+    "desc": "Diretórios de one-off patches precisam estar presentes no target home.",
+    "action": "Copie os diretórios de sqlpatch do source para o target.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "PRE_FIXED_OBJECTS",
+    "desc": "Coletar estatísticas de objetos fixos antes do patching.",
+    "action": "EXECUTE DBMS_STATS.GATHER_FIXED_OBJECTS_STATS;",
+    "sev": "RECOMMEND",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "ROLLBACK_SEGMENTS",
+    "desc": "Rollback segments devem ser dimensionados.",
+    "action": "Use public rollback segment grande (mínimo 70M).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_BACKUP_JOBS",
+    "desc": "Jobs RMAN podem impactar performance.",
+    "action": "Execute patching quando jobs RMAN não estiverem rodando.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_CENTRAL_INVENTORY",
+    "desc": "Central Inventory deve estar definido corretamente para Datapatch.",
+    "action": "Certifique-se que o Oracle home {2} está registrado.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_DATAPUMP_RUNNING",
+    "desc": "DataPump jobs podem impactar performance.",
+    "action": "Execute patching quando DataPump não estiver rodando.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_GG_INTEGRATED_ER",
+    "desc": "GoldenGate Integrated Extract/Replicat podem causar falhas.",
+    "action": "Pare os processos Extract e Replicat antes do patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_GG_LOGMINER_TRIGGERS",
+    "desc": "Triggers GoldenGate/LogMiner podem causar falhas.",
+    "action": "Desabilite triggers (MOS 2301658.1).",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_GUARDIUM",
+    "desc": "Guardium pode impactar uso de external tables.",
+    "action": "Desligue Guardium durante execução do AutoUpgrade Patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_IMPERVA",
+    "desc": "Imperva pode impactar uso de external tables.",
+    "action": "Desligue Imperva durante execução do AutoUpgrade Patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_LOCALE",
+    "desc": "Variáveis LC_ALL e LC_CTYPE precisam estar configuradas.",
+    "action": "Verifique configuração das variáveis de ambiente.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_OPTIM_UPGRADE_PARAM",
+    "desc": "Parâmetro _optim_dict_stats_at_db_cr_upg pode impactar performance.",
+    "action": "Remova o parâmetro durante o patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_QI_CHECKS",
+    "desc": "{1}",
+    "action": "{3}",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_SCHEDULE_JOBS",
+    "desc": "Jobs do scheduler podem causar falhas durante patching.",
+    "action": "Execute patching quando jobs não estiverem rodando.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_STATS_GATHERING",
+    "desc": "Coleta de estatísticas do dicionário pode impactar performance.",
+    "action": "Execute patching quando não houver coleta de estatísticas.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "SC_SYS_PUBLIC_GRANTS",
+    "desc": "PUBLIC precisa de EXECUTE em objetos do dicionário.",
+    "action": "Conceda EXECUTE para PUBLIC (MOS 247093.1).",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "STANDARD_EDITION",
+    "desc": "Criar backup antes do patching para rollback.",
+    "action": "Realize backup do banco de dados antes do patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TABLESPACES",
+    "desc": "Tablespaces sem AUTOEXTEND precisam de espaço suficiente.",
+    "action": "Garanta espaço adequado para patching.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TABLESPACES_INFO",
+    "desc": "Informação sobre tablespaces AUTOEXTEND.",
+    "action": "Apenas revisar.",
+    "sev": "INFO",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TARGET_GATEWAY_INSTALLED",
+    "desc": "Database Gateways configurado no source home.",
+    "action": "Instale Database Gateways no target home.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TDE_PASSWORDS_REQUIRED",
+    "desc": "AutoUpgrade precisa das senhas do TDE keystore.",
+    "action": "Carregue senhas com -load_password ou configure SEPS.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TEMPTS_ALLOFFLINE",
+    "desc": "Default temporary tablespace deve ter pelo menos um temp file online.",
+    "action": "Coloque online pelo menos um temp file.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TEMPTS_NOTEMPFILE",
+    "desc": "Default temporary tablespace deve ter pelo menos um temp file.",
+    "action": "Adicione um temp file.",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "TS_FORUPG_STATUS",
+    "desc": "Tablespaces com objetos do dicionário devem permitir escrita durante patching.",
+    "action": "Modifique tablespaces com ALTER TABLESPACE para permitir escrita. {1}",
+    "sev": "ERROR",
+    "stage": "PRE",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "UPDATE_SYS_DIRECTORIES",
+    "desc": "Diretórios que referenciam ORACLE_HOME precisam ser atualizados após patching.",
+    "action": "Execute utlfixdirs.sql após patching.",
+    "sev": "WARNING",
+    "stage": "POST",
+    "fix": "AUTO",
+    "cat": "PATCHING"
+  },
+  {
+    "name": "UTLRP_RUN_SERIAL",
+    "desc": "UTL_RECOMP.RECOMP_PARALLEL() pode spawn jobs em paralelo.",
+    "action": "Revise e ajuste JOB_QUEUE_PROCESSES.",
+    "sev": "WARNING",
+    "stage": "PRE",
+    "fix": "MANUAL",
+    "cat": "PATCHING"
+  }
+]
