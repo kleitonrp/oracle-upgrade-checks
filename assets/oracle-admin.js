@@ -4,6 +4,13 @@
 
 var OUC_DATA = [];
 var filteredIndexes = [];
+var oucDirty = false;   // há alterações em memória ainda não persistidas?
+
+function oucSetDirty(v) {
+    oucDirty = v;
+    var el = document.getElementById('ouc-save-status');
+    if (el) el.textContent = v ? '⚠️ Alterações pendentes' : '';
+}
 
 /* ── TABS ── */
 window.oucTab = function(name, btn) {
@@ -16,9 +23,11 @@ window.oucTab = function(name, btn) {
 };
 
 /* ── LOAD DATA ── */
-function oucLoadData(cb) {
+function oucLoadData(cb, force) {
+    // Nunca sobrescreve alterações ainda não persistidas (isso descartava edições silenciosamente).
+    if (oucDirty && !force) { if (cb) cb(); return; }
     $.post(OUC_ADMIN.ajax_url, {action:'ouc_get_data'}, function(res){
-        if (res.success) { OUC_DATA = res.data; if(cb) cb(); }
+        if (res.success) { OUC_DATA = res.data; oucSetDirty(false); if(cb) cb(); }
         else { alert('Erro ao carregar dados: ' + (res.data||'desconhecido')); }
     });
 }
@@ -90,8 +99,9 @@ window.oucEditItem = function(i) {
 window.oucDeleteItem = function(i) {
     if (!confirm('Remover "' + OUC_DATA[i].name + '"?')) return;
     OUC_DATA.splice(i, 1);
-    document.getElementById('ouc-save-status').textContent = '⚠️ Alterações pendentes';
+    oucSetDirty(true);
     oucAdminFilter();
+    oucPersist();
 };
 
 /* ── SAVE ITEM ── */
@@ -108,16 +118,48 @@ window.oucSaveItem = function() {
         fix:    document.getElementById('f-fix').value,
         cat:    document.getElementById('f-cat').value,
     };
-    if (idx >= 0) {
-        OUC_DATA[idx] = item;
-        document.getElementById('form-msg').innerHTML = '<span class="ouc-msg-ok">✅ Item atualizado (clique em Salvar para persistir)</span>';
-    } else {
-        OUC_DATA.push(item);
-        document.getElementById('form-msg').innerHTML = '<span class="ouc-msg-ok">✅ Item adicionado (clique em Salvar para persistir)</span>';
-    }
-    document.getElementById('ouc-save-status').textContent = '⚠️ Alterações pendentes';
-    oucResetForm();
+    var isEdit = idx >= 0;
+    if (isEdit) OUC_DATA[idx] = item;
+    else        OUC_DATA.push(item);
+
+    oucSetDirty(true);
+    document.getElementById('form-msg').innerHTML = '<span style="color:#646970;">⏳ Salvando…</span>';
+
+    oucPersist(function(ok, err){
+        var msg = document.getElementById('form-msg');
+        if (ok) {
+            msg.innerHTML = '<span class="ouc-msg-ok">✅ Item ' + (isEdit ? 'atualizado' : 'adicionado') + ' e salvo.</span>';
+            oucResetForm();
+            oucAdminFilter();
+        } else {
+            msg.innerHTML = '<span class="ouc-msg-err">❌ Erro ao salvar: ' + esc(err||'desconhecido') + '</span>';
+        }
+    });
 };
+
+/* ── PERSIST (envia OUC_DATA ao servidor) ── */
+function oucPersist(cb) {
+    var status = document.getElementById('ouc-save-status');
+    if (status) status.textContent = '⏳ Salvando…';
+    $.post(OUC_ADMIN.ajax_url, {
+        action: 'ouc_save_data',
+        nonce:  OUC_ADMIN.nonce,
+        data:   JSON.stringify(OUC_DATA)
+    }, function(res){
+        if (res.success) {
+            oucSetDirty(false);
+            if (status) status.textContent = '✅ ' + res.data;
+            if (cb) cb(true);
+        } else {
+            if (status) status.textContent = '❌ Erro: ' + (res.data||'desconhecido');
+            if (cb) cb(false, res.data);
+        }
+    }).fail(function(xhr){
+        var e = 'falha de rede (' + (xhr.status||0) + ')';
+        if (status) status.textContent = '❌ Erro: ' + e;
+        if (cb) cb(false, e);
+    });
+}
 
 window.oucResetForm = function() {
     document.getElementById('edit-index').value = '-1';
@@ -133,18 +175,7 @@ window.oucResetForm = function() {
 
 /* ── SAVE ALL ── */
 window.oucAdminSave = function() {
-    document.getElementById('ouc-save-status').textContent = '⏳ Salvando…';
-    $.post(OUC_ADMIN.ajax_url, {
-        action: 'ouc_save_data',
-        nonce:  OUC_ADMIN.nonce,
-        data:   JSON.stringify(OUC_DATA)
-    }, function(res){
-        if (res.success) {
-            document.getElementById('ouc-save-status').textContent = '✅ ' + res.data;
-        } else {
-            document.getElementById('ouc-save-status').textContent = '❌ Erro: ' + (res.data||'desconhecido');
-        }
-    });
+    oucPersist();
 };
 
 /* ── IMPORT ── */
@@ -154,8 +185,8 @@ window.oucImportJSON = function() {
         var arr = JSON.parse(txt);
         if (!Array.isArray(arr)) throw new Error('Deve ser um array JSON');
         OUC_DATA = arr;
-        document.getElementById('import-msg').innerHTML = '<span class="ouc-msg-ok">✅ ' + arr.length + ' itens importados. Clique em Salvar para persistir.</span>';
-        document.getElementById('ouc-save-status').textContent = '⚠️ Alterações pendentes';
+        document.getElementById('import-msg').innerHTML = '<span class="ouc-msg-ok">✅ ' + arr.length + ' itens importados. Clique em «Salvar todas as alterações» para persistir.</span>';
+        oucSetDirty(true);
     } catch(e) {
         document.getElementById('import-msg').innerHTML = '<span class="ouc-msg-err">❌ JSON inválido: ' + e.message + '</span>';
     }
@@ -163,7 +194,7 @@ window.oucImportJSON = function() {
 
 /* ── EXPORT ── */
 window.oucExportLoad = function() {
-    oucLoadData(function(){
+    oucLoadData(function(){   // respeita alterações pendentes (não recarrega por cima)
         var txt = JSON.stringify(OUC_DATA, null, 2);
         var ta = document.getElementById('export-json');
         ta.value = txt;
@@ -261,6 +292,13 @@ window.oucTestTelegram = function() {
 /* ── INIT ── */
 $(document).ready(function(){
     oucLoadList();
+});
+
+// Import ainda é confirmado em duas etapas — avisa se sair com algo pendente.
+window.addEventListener('beforeunload', function(e){
+    if (!oucDirty) return;
+    e.preventDefault();
+    e.returnValue = '';
 });
 
 })(jQuery);
