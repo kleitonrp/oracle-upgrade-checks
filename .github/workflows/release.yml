@@ -71,7 +71,7 @@ jobs:
           SLUG=oracle-upgrade-checks-v4
           mkdir -p build/$SLUG
           rsync -a --exclude='.git' --exclude='.github' --exclude='build' \
-                --exclude='*.zip' --exclude='.gitignore' \
+                --exclude='*.zip' --exclude='.gitignore' --exclude='CLAUDE.md' \
                 ./ build/$SLUG/
           cd build
           zip -rq "../$SLUG-${GITHUB_REF_NAME}.zip" "$SLUG"
