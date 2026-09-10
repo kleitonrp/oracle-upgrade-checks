@@ -3,7 +3,7 @@
  * Plugin Name: Oracle Upgrade Checks
  * Plugin URI:  https://github.com/kleitonrp/oracle-upgrade-checks
  * Description: Verificações Oracle AutoUpgrade com upload de relatório e painel admin. Use [oracle_upgrade_checks] em posts/páginas.
- * Version:     4.2.0
+ * Version:     4.2.1
  * Author:      DBA Focus
  * Author URI:  https://github.com/kleitonrp
  * License:     GPL-2.0+
@@ -15,7 +15,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'OUC_VERSION', '4.2.0' );
+define( 'OUC_VERSION', '4.2.1' );
 define( 'OUC_DATA_FILE', WP_CONTENT_DIR . '/oracle-checks-data.json' );
 
 /* ─── UPDATE CHECKER (GitHub Releases) ─── */

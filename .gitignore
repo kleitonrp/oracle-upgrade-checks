@@ -4,8 +4,13 @@ oracle-checks-unknown-log.json
 
 # Dependências e cache
 node_modules/
-vendor/
+/vendor/
 *.cache
+
+# A biblioteca em lib/ é distribuída junto com o plugin: o vendor/ dela
+# (Parsedown, PucReadmeParser) precisa ir no pacote, senão "Ver detalhes"
+# e "Verificar atualizações" dão erro fatal.
+!lib/**/vendor/
 
 # Arquivos de sistema
 .DS_Store
