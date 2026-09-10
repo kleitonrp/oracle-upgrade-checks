@@ -28,3 +28,6 @@ desktop.ini
 
 # Zip de distribuição
 *.zip
+
+# Contexto local do projeto (memórias e preferências para o Claude Code)
+CLAUDE.md
