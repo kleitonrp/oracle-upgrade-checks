@@ -3,7 +3,7 @@
  * Plugin Name: Oracle Upgrade Checks
  * Plugin URI:  https://github.com/kleitonrp/oracle-upgrade-checks
  * Description: Verificações Oracle AutoUpgrade com upload de relatório e painel admin. Use [oracle_upgrade_checks] em posts/páginas.
- * Version:     4.2.1
+ * Version:     4.3.0
  * Author:      DBA Focus
  * Author URI:  https://github.com/kleitonrp
  * License:     GPL-2.0+
@@ -15,7 +15,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'OUC_VERSION', '4.2.1' );
+define( 'OUC_VERSION', '4.3.0' );
 define( 'OUC_DATA_FILE', WP_CONTENT_DIR . '/oracle-checks-data.json' );
 
 /* ─── UPDATE CHECKER (GitHub Releases) ─── */
@@ -111,7 +111,6 @@ function ouc_render_shortcode( $atts ) {
                 <option value="">Todas as Etapas</option>
                 <option value="PRE">PRÉ-Upgrade</option>
                 <option value="POST">PÓS-Upgrade</option>
-                <option value="VALIDATION">Validação</option>
             </select>
             <select id="ouc-fix">
                 <option value="">Tipo de Correção</option>
@@ -269,6 +268,8 @@ function ouc_render_shortcode( $atts ) {
 
         var SEV_LBL   = {ERROR:'Erro',WARNING:'Aviso',RECOMMEND:'Recomendação',INFO:'Informação'};
         var SEV_CLS   = {ERROR:'error',WARNING:'warning',RECOMMEND:'recommend',INFO:'info'};
+        // O AutoUpgrade só emite PRECHECKS/POSTCHECKS. VALIDATION segue mapeado
+        // apenas para exibir bases antigas que ainda tenham esse valor gravado.
         var STAGE_LBL = {PRE:'PRÉ',POST:'PÓS',VALIDATION:'Validação',PRECHECKS:'PRÉ',POSTCHECKS:'PÓS'};
         var STAGE_CLS = {PRE:'stage-pre',POST:'stage-post',VALIDATION:'stage-val',PRECHECKS:'stage-pre',POSTCHECKS:'stage-post'};
         var CAT_LBL   = {UPGRADE:'⬆️ Upgrade',PATCHING:'📦 Patching'};
@@ -832,7 +833,6 @@ function ouc_admin_page() { ?>
                     <select id="f-stage">
                         <option value="PRE">PRE</option>
                         <option value="POST">POST</option>
-                        <option value="VALIDATION">VALIDATION</option>
                     </select>
                 </label>
                 <label>Correção

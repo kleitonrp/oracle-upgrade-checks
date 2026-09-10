@@ -32,6 +32,38 @@ jobs:
             exit 1
           fi
 
+      - name: Conferir integridade da biblioteca
+        run: |
+          # A v4.2.0 saiu quebrada porque o .gitignore excluiu vendor/ da
+          # plugin-update-checker: sem Parsedown, os botoes "Ver detalhes" e
+          # "Verificar atualizacoes" davam erro fatal. Sintaxe valida nao garante
+          # pacote completo, entao os arquivos criticos sao conferidos aqui.
+          missing=0
+          for f in lib/plugin-update-checker/plugin-update-checker.php lib/plugin-update-checker/load-v5p7.php lib/plugin-update-checker/vendor/Parsedown.php lib/plugin-update-checker/vendor/ParsedownModern.php lib/plugin-update-checker/vendor/PucReadmeParser.php lib/plugin-update-checker/Puc/v5/PucFactory.php lib/plugin-update-checker/Puc/v5p7/Vcs/GitHubApi.php assets/oracle-checks-default.json assets/oracle-checks.css assets/oracle-admin.css assets/oracle-admin.js ; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Arquivo ausente no repositorio: $f"
+              missing=1
+            fi
+          done
+          [ "$missing" -eq 0 ] || exit 1
+
+          # A classe que faltava precisa estar declarada, nao so o arquivo existir.
+          if ! grep -q 'class Parsedown' lib/plugin-update-checker/vendor/ParsedownModern.php; then
+            echo '::error::ParsedownModern.php nao declara a classe Parsedown.'
+            exit 1
+          fi
+
+          # A base de checks precisa ser um JSON valido e nao-vazio.
+          count=$(php -r '$d = json_decode(file_get_contents("assets/oracle-checks-default.json"), true); echo is_array($d) ? count($d) : 0;')
+          case "$count" in
+            ''|*[!0-9]*) echo '::error::Nao foi possivel contar os itens da base de checks.'; exit 1 ;;
+          esac
+          if [ "$count" -lt 1 ]; then
+            echo '::error::Base de checks invalida ou vazia.'
+            exit 1
+          fi
+          echo "base de checks: $count itens"
+
       - name: Montar o zip do plugin
         run: |
           # Precisa ser o MESMO nome da pasta ja instalada em wp-content/plugins/,
@@ -45,6 +77,12 @@ jobs:
           zip -rq "../$SLUG-${GITHUB_REF_NAME}.zip" "$SLUG"
           cd ..
           unzip -l "$SLUG-${GITHUB_REF_NAME}.zip" | head -20
+
+          # Confere o pacote final: é ele que o WordPress instala.
+          for f in             "$SLUG/oracle-upgrade-checks.php"             "$SLUG/lib/plugin-update-checker/vendor/Parsedown.php"             "$SLUG/lib/plugin-update-checker/vendor/ParsedownModern.php"             "$SLUG/lib/plugin-update-checker/vendor/PucReadmeParser.php"             "$SLUG/assets/oracle-checks-default.json" ; do
+            unzip -l "$SLUG-${GITHUB_REF_NAME}.zip" "$f" | grep -q "$f"               || { echo "::error::O zip publicado não contém $f"; exit 1; }
+          done
+          echo "pacote íntegro: todos os arquivos críticos presentes"
 
       - name: Publicar o Release
         env:

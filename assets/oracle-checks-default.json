@@ -292,7 +292,7 @@
     "desc": "Tablespaces com Data Mining não serão READ ONLY com -T.",
     "action": "Nenhuma ação necessária.",
     "sev": "INFO",
-    "stage": "VALIDATION",
+    "stage": "PRE",
     "fix": "MANUAL",
     "cat": "UPGRADE"
   },
@@ -319,7 +319,7 @@
     "desc": "Valor padrão do RESOURCE_LIMIT mudou para TRUE.",
     "action": "Defina explicitamente FALSE no pfile/spfile.",
     "sev": "WARNING",
-    "stage": "VALIDATION",
+    "stage": "PRE",
     "fix": "AUTO",
     "cat": "UPGRADE"
   },
@@ -382,7 +382,7 @@
     "desc": "Estatísticas do dicionário são essenciais para o upgrade.",
     "action": "EXECUTE DBMS_STATS.GATHER_DICTIONARY_STATS;",
     "sev": "RECOMMEND",
-    "stage": "VALIDATION",
+    "stage": "PRE",
     "fix": "AUTO",
     "cat": "UPGRADE"
   },
@@ -697,7 +697,7 @@
     "desc": "Colunas de tipo objeto em tabelas de usuários Oracle-Supplied devem estar atualizadas.",
     "action": "ALTER TABLE ... UPGRADE INCLUDING DATA",
     "sev": "ERROR",
-    "stage": "VALIDATION",
+    "stage": "PRE",
     "fix": "AUTO",
     "cat": "UPGRADE"
   },
@@ -706,7 +706,7 @@
     "desc": "Tabelas de usuário dependentes de tipos mantidos pela Oracle devem estar atualizadas.",
     "action": "ALTER TABLE ... UPGRADE INCLUDING DATA",
     "sev": "ERROR",
-    "stage": "VALIDATION",
+    "stage": "PRE",
     "fix": "AUTO",
     "cat": "UPGRADE"
   },
@@ -1291,7 +1291,7 @@
     "desc": "Recycle bin deve estar completamente vazio antes do upgrade.",
     "action": "Esvazie o RECYCLEBIN imediatamente antes do upgrade.",
     "sev": "ERROR",
-    "stage": "VALIDATION",
+    "stage": "PRE",
     "fix": "AUTO",
     "cat": "UPGRADE"
   },
