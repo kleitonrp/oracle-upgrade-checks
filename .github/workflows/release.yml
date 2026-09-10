@@ -1,0 +1,56 @@
+name: Release
+
+# Publica o plugin empacotado sempre que uma tag v* for enviada.
+# O zip anexado ao Release é o que o WordPress baixa ao clicar em "Atualizar".
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validar sintaxe PHP
+        run: |
+          find . -name '*.php' -not -path './.git/*' -print0 \
+            | xargs -0 -n1 php -l
+
+      - name: Conferir se a versão bate com a tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          HEADER=$(sed -n 's/^[[:space:]]*\*[[:space:]]*Version:[[:space:]]*\(.*\)$/\1/p' oracle-upgrade-checks.php | head -1 | tr -d '[:space:]')
+          CONST=$(sed -n "s/.*define([[:space:]]*'OUC_VERSION',[[:space:]]*'\([^']*\)'.*/\1/p" oracle-upgrade-checks.php | head -1)
+          echo "tag=$TAG  header=$HEADER  OUC_VERSION=$CONST"
+          if [ "$TAG" != "$HEADER" ] || [ "$TAG" != "$CONST" ]; then
+            echo "::error::A tag ($TAG) precisa bater com o header ($HEADER) e OUC_VERSION ($CONST)."
+            exit 1
+          fi
+
+      - name: Montar o zip do plugin
+        run: |
+          # Precisa ser o MESMO nome da pasta ja instalada em wp-content/plugins/,
+          # senao o WordPress instala uma copia paralela em vez de atualizar.
+          SLUG=oracle-upgrade-checks-v4
+          mkdir -p build/$SLUG
+          rsync -a --exclude='.git' --exclude='.github' --exclude='build' \
+                --exclude='*.zip' --exclude='.gitignore' \
+                ./ build/$SLUG/
+          cd build
+          zip -rq "../$SLUG-${GITHUB_REF_NAME}.zip" "$SLUG"
+          cd ..
+          unzip -l "$SLUG-${GITHUB_REF_NAME}.zip" | head -20
+
+      - name: Publicar o Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            "oracle-upgrade-checks-v4-${GITHUB_REF_NAME}.zip"

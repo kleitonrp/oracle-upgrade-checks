@@ -1,16 +1,34 @@
 <?php
 /**
  * Plugin Name: Oracle Upgrade Checks
+ * Plugin URI:  https://github.com/kleitonrp/oracle-upgrade-checks
  * Description: Verificações Oracle AutoUpgrade com upload de relatório e painel admin. Use [oracle_upgrade_checks] em posts/páginas.
  * Version:     4.2.0
  * Author:      DBA Focus
+ * Author URI:  https://github.com/kleitonrp
  * License:     GPL-2.0+
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: oracle-upgrade-checks
+ * Requires at least: 5.0
+ * Requires PHP: 7.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 define( 'OUC_VERSION', '4.2.0' );
 define( 'OUC_DATA_FILE', WP_CONTENT_DIR . '/oracle-checks-data.json' );
+
+/* ─── UPDATE CHECKER (GitHub Releases) ─── */
+require_once plugin_dir_path( __FILE__ ) . 'lib/plugin-update-checker/plugin-update-checker.php';
+
+$ouc_update_checker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+    'https://github.com/kleitonrp/oracle-upgrade-checks/',
+    __FILE__,
+    'oracle-upgrade-checks-v4'   // precisa bater com a pasta em wp-content/plugins/
+);
+// Usa os assets do GitHub Release (zip com a estrutura correta do plugin),
+// e não o tarball automático do código-fonte.
+$ouc_update_checker->getVcsApi()->enableReleaseAssets();
 
 /* ─── ENQUEUE ASSETS ─── */
 function ouc_enqueue_assets() {
